@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blue Lock League</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html"><span>BLUE LOCK</span> LEAGUE</a>
+    <nav>
+      <a class="active" href="index.html">Ana Sayfa</a>
+      <a href="players.html">Oyuncular</a>
+      <a href="rankings.html">Sıralamalar</a>
+      <a href="matches.html">Maçlar</a>
+      <a href="login.html" class="nav-admin">Admin</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <p class="eyebrow">EGOIST LEAGUE • RP STATISTICS</p>
+        <h1>THE BLUE LOCK<br><span>LEAGUE</span></h1>
+        <p class="hero-copy">Goller, asistler, Match Up'lar, kritik müdahaleler ve oyuncu değerleri tek bir lig merkezinde.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="players.html">OYUNCULARI GÖR</a>
+          <a class="btn ghost" href="rankings.html">SIRALAMALAR</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="hero-card-label">SİSTEM DEĞERLERİ</div>
+        <div class="value-grid">
+          <div><b>700K</b><span>GOL</span></div>
+          <div><b>600K</b><span>ASİST</span></div>
+          <div><b>100K</b><span>MATCH UP</span></div>
+          <div><b>500K</b><span>KRİTİK</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div><p class="eyebrow">CURRENT SEASON</p><h2>Lig Özeti</h2></div>
+      </div>
+      <div class="stat-cards" id="leagueStats"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div><p class="eyebrow">LEADERBOARD</p><h2>Liderler</h2></div>
+        <a href="rankings.html" class="text-link">Tümünü Gör →</a>
+      </div>
+      <div class="leaders" id="leaders"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div><p class="eyebrow">LATEST</p><h2>Son Maçlar</h2></div>
+        <a href="matches.html" class="text-link">Maç Merkezi →</a>
+      </div>
+      <div id="recentMatches" class="match-list"></div>
+    </section>
+  </main>
+
+  <footer>BLUE LOCK LEAGUE • RP STAT SYSTEM</footer>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

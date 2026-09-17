@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Admin Giriş • Blue Lock League</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&family=Orbitron:wght@700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/main.css"></head>
+<body class="auth-page"><div class="auth-card"><a class="brand" href="index.html"><span>BLUE LOCK</span> LEAGUE</a><p class="eyebrow">CONTROL CENTER</p><h1>Admin Girişi</h1><p>Lig yönetim paneline erişmek için giriş yap.</p><form id="loginForm"><input id="email" class="input" type="email" placeholder="E-posta" required><input id="password" class="input" type="password" placeholder="Şifre" required><button class="btn primary" type="submit">GİRİŞ YAP</button><div id="message" class="form-message"></div></form><a class="back" href="index.html">← Ana sayfaya dön</a></div>
+<script type="module">
+import { signIn } from './js/auth.js';
+document.querySelector('#loginForm').addEventListener('submit',async e=>{
+ e.preventDefault(); const box=document.querySelector('#message'); box.textContent='Giriş yapılıyor...';
+ const {error}=await signIn(document.querySelector('#email').value,document.querySelector('#password').value);
+ if(error){box.textContent=error.message||'Giriş başarısız.';box.className='form-message error';}
+ else location.href='admin/index.html';
+});
+</script>
+</body>
+</html>

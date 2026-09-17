@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Maçlar • Blue Lock League</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Orbitron:wght@600;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/main.css"></head>
+<body>
+<header class="topbar"><a class="brand" href="index.html"><span>BLUE LOCK</span> LEAGUE</a><nav><a href="index.html">Ana Sayfa</a><a href="players.html">Oyuncular</a><a href="rankings.html">Sıralamalar</a><a class="active" href="matches.html">Maçlar</a><a href="login.html" class="nav-admin">Admin</a></nav></header>
+<main class="page"><div class="page-title"><p class="eyebrow">MATCH CENTER</p><h1>Maçlar</h1><p>Oynanan maçlar ve maç olayları.</p></div><div id="matches" class="match-list large"></div></main>
+<footer>BLUE LOCK LEAGUE</footer>
+<script type="module">
+import { getMatches } from './js/data.js';
+const matches = await getMatches();
+document.querySelector('#matches').innerHTML = matches.map(m=>`<article class="match-card"><div class="match-meta">${formatDate(m.played_at)} • ${m.status}</div><div class="match-teams"><div>${esc(m.home_team_name)}</div><b>${m.home_score} — ${m.away_score}</b><div>${esc(m.away_team_name)}</div></div></article>`).join('') || '<div class="empty">Henüz maç yok.</div>';
+function formatDate(s){return s?new Date(s).toLocaleDateString('tr-TR',{day:'2-digit',month:'short',year:'numeric'}):'-'}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+</script>
+</body>
+</html>

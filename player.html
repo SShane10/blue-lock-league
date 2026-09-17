@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oyuncu • Blue Lock League</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<header class="topbar"><a class="brand" href="index.html"><span>BLUE LOCK</span> LEAGUE</a><nav><a href="index.html">Ana Sayfa</a><a class="active" href="players.html">Oyuncular</a><a href="rankings.html">Sıralamalar</a><a href="matches.html">Maçlar</a><a href="login.html" class="nav-admin">Admin</a></nav></header>
+<main class="page"><div id="player"></div></main>
+<footer>BLUE LOCK LEAGUE</footer>
+<script type="module">
+import { getPlayer, money, statValue } from './js/data.js';
+const id = new URLSearchParams(location.search).get('id');
+const p = await getPlayer(id);
+const root = document.querySelector('#player');
+if(!p){root.innerHTML='<div class="empty">Oyuncu bulunamadı.</div>'}
+else {
+  document.title = `${p.name} • Blue Lock League`;
+  root.innerHTML = `
+  <div class="player-profile">
+    <a href="players.html" class="back">← Oyuncular</a>
+    <div class="profile-head">
+      <div class="profile-avatar">${p.name.split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase()}</div>
+      <div><p class="eyebrow">${p.position || 'PLAYER'} • ${p.team_name || 'TAKIMSIZ'}</p><h1>${esc(p.name)}</h1><p>Forma #${p.number ?? '-'}</p></div>
+      <div class="profile-price"><span>TOPLAM DEĞER</span><b>${money(p.market_value)}</b></div>
+    </div>
+    <div class="stat-panel">
+      <div><span>GOL</span><b>${p.goals}</b><small>${money(p.goals*700000)}</small></div>
+      <div><span>ASİST</span><b>${p.assists}</b><small>${money(p.assists*600000)}</small></div>
+      <div><span>MATCH UP</span><b>${p.match_ups}</b><small>${money(p.match_ups*100000)}</small></div>
+      <div><span>KRİTİK MÜDAHALE</span><b>${p.critical_interventions}</b><small>${money(p.critical_interventions*500000)}</small></div>
+    </div>
+    <div class="detail-grid">
+      <div class="panel"><h2>Oyuncu Bilgileri</h2><p>${esc(p.bio || 'Henüz biyografi eklenmedi.')}</p></div>
+      <div class="panel"><h2>Değer Formülü</h2><div class="formula">
+        <p>Gol <b>× 700.000 ₺</b></p><p>Asist <b>× 600.000 ₺</b></p><p>Match Up <b>× 100.000 ₺</b></p><p>Kritik Müdahale <b>× 500.000 ₺</b></p>
+      </div></div>
+    </div>
+  </div>`;
+}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+</script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oyuncular • Blue Lock League</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<header class="topbar"><a class="brand" href="index.html"><span>BLUE LOCK</span> LEAGUE</a><nav><a href="index.html">Ana Sayfa</a><a class="active" href="players.html">Oyuncular</a><a href="rankings.html">Sıralamalar</a><a href="matches.html">Maçlar</a><a href="login.html" class="nav-admin">Admin</a></nav></header>
+<main class="page">
+  <div class="page-title"><p class="eyebrow">PLAYER DATABASE</p><h1>Oyuncular</h1><p>Oyuncu profilleri ve otomatik hesaplanan piyasa değerleri.</p></div>
+  <div class="toolbar"><input id="search" class="input" placeholder="Oyuncu ara..."><select id="teamFilter" class="input"><option value="">Tüm takımlar</option></select></div>
+  <div id="playersGrid" class="players-grid"></div>
+</main>
+<footer>BLUE LOCK LEAGUE</footer>
+<script type="module">
+  import { getPlayers, money } from './js/data.js';
+  const players = await getPlayers();
+  const grid = document.querySelector('#playersGrid');
+  const search = document.querySelector('#search');
+  const teamFilter = document.querySelector('#teamFilter');
+
+  [...new Set(players.map(p => p.team_name).filter(Boolean))].sort().forEach(t => {
+    const o = document.createElement('option'); o.value=t; o.textContent=t; teamFilter.appendChild(o);
+  });
+
+  function render() {
+    const q = search.value.toLowerCase().trim(), team = teamFilter.value;
+    const filtered = players.filter(p =>
+      (!q || p.name.toLowerCase().includes(q)) && (!team || p.team_name === team)
+    );
+    grid.innerHTML = filtered.map(p => `
+      <a class="player-card" href="player.html?id=${p.id}">
+        <div class="player-avatar">${initials(p.name)}</div>
+        <div class="player-main"><div class="player-top"><span class="tag">${p.position || 'PLAYER'}</span><span>#${p.number ?? '-'}</span></div>
+        <h3>${esc(p.name)}</h3><p>${esc(p.team_name || 'Takımsız')}</p></div>
+        <div class="player-value">${money(p.market_value)}</div>
+      </a>`).join('') || '<div class="empty">Oyuncu bulunamadı.</div>';
+  }
+  search.addEventListener('input', render); teamFilter.addEventListener('change', render); render();
+  function initials(n){return n.split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase()}
+  function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+</script>
+</body>
+</html>

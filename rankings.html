@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Sıralamalar • Blue Lock League</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Orbitron:wght@600;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/main.css"></head>
+<body>
+<header class="topbar"><a class="brand" href="index.html"><span>BLUE LOCK</span> LEAGUE</a><nav><a href="index.html">Ana Sayfa</a><a href="players.html">Oyuncular</a><a class="active" href="rankings.html">Sıralamalar</a><a href="matches.html">Maçlar</a><a href="login.html" class="nav-admin">Admin</a></nav></header>
+<main class="page"><div class="page-title"><p class="eyebrow">LEADERBOARDS</p><h1>Sıralamalar</h1><p>Sezon istatistikleri oyuncu kayıtlarından otomatik hesaplanır.</p></div><div id="rankings" class="ranking-grid"></div></main>
+<footer>BLUE LOCK LEAGUE</footer>
+<script type="module">
+import { getPlayers, money } from './js/data.js';
+const players = await getPlayers();
+const types = [['goals','⚽','Gol Krallığı'],['assists','🅰️','Asist Krallığı'],['match_ups','⚔️','Match Up'],['critical_interventions','🛡','Kritik Müdahale'],['market_value','💰','Değer Sıralaması']];
+document.querySelector('#rankings').innerHTML = types.map(([key,icon,title]) => {
+  const sorted = [...players].sort((a,b)=>(b[key]||0)-(a[key]||0)).slice(0,10);
+  return `<section class="ranking-card"><div class="ranking-title"><span>${icon}</span><h2>${title}</h2></div>${sorted.map((p,i)=>`<a class="rank-row" href="player.html?id=${p.id}"><span class="rank-no">${String(i+1).padStart(2,'0')}</span><strong>${esc(p.name)}</strong><span class="rank-team">${esc(p.team_name||'')}</span><b>${key==='market_value'?money(p[key]):p[key]}</b></a>`).join('')}</section>`
+}).join('');
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+</script>
+</body>
+</html>
